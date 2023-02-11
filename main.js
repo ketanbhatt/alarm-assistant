@@ -25,18 +25,24 @@ function initSpeak() {
 
 		let times = getTimeStrs();
 		const bot = document.getElementById("bot").value;
+		const samantha = EasySpeech.voices().filter(voice => {
+			return voice.lang.split(/[-_]/)[0] == "en" && voice.name.includes("Samantha") 
+		})[0] // Because samantha seems available on phone and desktop
+
 
 		try {
 			for (const timeStr of times) {
 				await EasySpeech.speak({
 					text: bot,
 					rate: 0.8,
+					voice: samantha
 				})
-				await sleep(1500);
+				await sleep(1000);
 
 				await EasySpeech.speak({
 					text: "Set alarm for " + timeStr,
 					rate: 0.8,
+					voice: samantha
 				})
 				await sleep(9000);
 			}
