@@ -9,7 +9,7 @@
 </head>
 <body class="text-center">
 	<main class="form-alarm w-100 m-auto">
-		<form onsubmit="setAllAlarms(event)">
+		<div>
 			<h1 class="h3 mb-3 fw-normal">Stop talking to your bots!</h1>
 			<p class="mb-3 text-muted">Let them talk to each other. Set multiple alarms without speaking!</p>
 
@@ -40,9 +40,9 @@
 				<label for="interval">Interval in Minutes</label>
 			</div>
 
-			<button class="mt-2 w-100 btn btn-lg btn-success" id="submitBtn" type="submit">Press to set alarms!</button>
+			<button class="mt-2 w-100 btn btn-lg btn-success" id="speakbtn">Press to set alarms!</button>
 
-		</form>
+		</div>
 	</main>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>

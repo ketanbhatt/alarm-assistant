@@ -1,5 +1,6 @@
 document.body.onload = async () => {
-	const initialized = await easySpeechInit();
+	const initialized = await easySpeechInit()
+	await initSpeak();
 }
 
 async function easySpeechInit () {
@@ -16,26 +17,36 @@ async function easySpeechInit () {
 	return success
 }
 
-function setAlarm(countdown, timeStr) {
-	var bot = document.getElementById("bot").value;
+function initSpeak() {
+	const speakButton = document.querySelector('#speakbtn')
 
-	setTimeout(function () {
-		console.log("Invoking assistant: " + bot)
-		EasySpeech.speak({
-			text: bot,
-			rate: 0.8,
-		})
-	}, countdown + 1000);
+	speakButton.addEventListener('click', async event => {
+		speakButton.disabled = true
 
-	setTimeout(function () {
-		console.log("Setting alarm for " + timeStr)
-		EasySpeech.speak({
-			text: "Set alarm for " + timeStr,
-			rate: 0.8,
-		})
-	}, countdown + 3000);
+		let times = getTimeStrs();
+		const bot = document.getElementById("bot").value;
 
-	return countdown + 3000
+		try {
+			for (const timeStr of times) {
+				await EasySpeech.speak({
+					text: bot,
+					rate: 0.8,
+				})
+				await sleep(1500);
+
+				await EasySpeech.speak({
+					text: "Set alarm for " + timeStr,
+					rate: 0.8,
+				})
+				await sleep(9000);
+			}
+		} catch (e) {
+			console.log(e.message)
+		} finally {
+			speakButton.disabled = false
+		}
+		
+	})
 }
 
 function getTimeStrs() {
@@ -73,18 +84,4 @@ function getTimeStrs() {
 	return timeStrs
 }
 
-function setAllAlarms(event) {
-	event.preventDefault();
-	document.getElementById("submitBtn").disabled = true;
-
-	let times = getTimeStrs();
-	let countdown = 0
-	times.forEach((timeStr) => {
-		countdown = setAlarm(countdown, timeStr);
-		countdown += 9000
-	})
-
-	setTimeout(function () {
-		document.getElementById("submitBtn").disabled = false;		
-	}, countdown);
-}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
